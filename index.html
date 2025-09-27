@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Pendidikan Islam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .prayer-time {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            color: #4f46e5;
+            transform: scale(1.1);
+        }
+        
+        .font-arabic {
+            font-family: 'Amiri', 'Times New Roman', serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+        
+        .text-content {
+            line-height: 1.7;
+            font-weight: 400;
+        }
+        
+        .quiz-progress {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+        }
+        
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="closeSidebar()"></div>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-80 bg-white shadow-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-mosque text-2xl text-indigo-600"></i>
+                    <h2 class="text-lg font-bold text-gray-800">Menu Utama</h2>
+                </div>
+                <button onclick="closeSidebar()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <i class="fas fa-times text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+        
+        <nav class="p-4">
+            <div class="space-y-2">
+                <button onclick="showPage('home'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                    <i class="fas fa-home w-5 mr-3"></i>
+                    <span>Halaman Utama</span>
+                </button>
+                
+                <div class="pt-2">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-3">Tingkatan</p>
+                    <button onclick="showPage('notaT1'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                        <i class="fas fa-book w-5 mr-3"></i>
+                        <span>Tingkatan 1</span>
+                    </button>
+                    <button onclick="showPage('notaT2'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-green-50 hover:text-green-600 rounded-lg transition-colors">
+                        <i class="fas fa-book w-5 mr-3"></i>
+                        <span>Tingkatan 2</span>
+                    </button>
+                    <button onclick="showPage('notaT3'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg transition-colors">
+                        <i class="fas fa-book w-5 mr-3"></i>
+                        <span>Tingkatan 3</span>
+                    </button>
+                </div>
+                
+                <div class="pt-4 border-t border-gray-200">
+                    <button onclick="showPage('about'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                        <i class="fas fa-info-circle w-5 mr-3"></i>
+                        <span>Tentang Kami</span>
+                    </button>
+                    
+                    <div id="sidebarAuth" class="mt-2">
+                        <button id="sidebarLoginBtn" onclick="showPage('login'); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">
+                            <i class="fas fa-sign-in-alt w-5 mr-3"></i>
+                            <span>Log Masuk</span>
+                        </button>
+                        <button id="sidebarLogoutBtn" onclick="logout(); closeSidebar();" class="sidebar-item w-full flex items-center p-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors hidden">
+                            <i class="fas fa-sign-out-alt w-5 mr-3"></i>
+                            <span>Log Keluar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <div id="sidebarUserInfo" class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gray-50 hidden">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-white"></i>
+                </div>
+                <div>
+                    <p id="sidebarUsername" class="font-medium text-gray-800"></p>
+                    <p id="sidebarTingkatan" class="text-sm text-gray-600"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app" class="min-h-screen">
+        <!-- Header -->
+        <header class="gradient-bg text-white shadow-lg">
+            <div class="w-full px-1 py-2 md:px-6 md:py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2 md:space-x-3">
+                        <button onclick="toggleSidebar()" class="p-2 hover:bg-white/20 rounded-lg transition-colors mr-2">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <i class="fas fa-mosque text-xl md:text-2xl"></i>
+                        <h1 class="text-lg md:text-xl font-bold tracking-tight">Nota Pendidikan Islam</h1>
+                    </div>
+                    <div id="userInfo" class="hidden">
+                        <button onclick="logout()" class="bg-white/20 px-2 py-1 rounded-md text-xs hover:bg-white/30 transition-colors">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                    <div id="guestInfo" class="hidden">
+                        <button onclick="showPage('login')" class="bg-white/20 px-3 py-1 rounded-lg text-sm hover:bg-white/30 transition-colors">
+                            <i class="fas fa-sign-in-alt"></i> Log Masuk
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="w-full px-1 py-2 md:px-6 md:py-6">
+            <!-- Login/Register Page -->
+            <div id="loginPage" class="page">
+                <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg p-4 md:p-6 mx-0 md:m-0">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-mosque text-4xl text-indigo-600 mb-3"></i>
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 tracking-tight">Selamat Datang</h2>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <div id="loginForm">
+                        <h3 class="text-lg font-semibold mb-4 tracking-tight">Log Masuk</h3>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                                <input type="text" id="loginUsername" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="loginPassword" required class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                                    <button type="button" onclick="togglePassword('loginPassword')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                        <i id="loginPasswordIcon" class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-base">
+                                Log Masuk
+                            </button>
+                        </form>
+                        <p class="text-center mt-4 text-sm text-gray-600">
+                            Belum ada akaun? 
+                            <button onclick="showRegister()" class="text-indigo-600 hover:underline">Daftar di sini</button>
+                        </p>
+                    </div>
+                    
+                    <!-- Register Form -->
+                    <div id="registerForm" class="hidden">
+                        <h3 class="text-lg font-semibold mb-4 tracking-tight">Daftar Akaun</h3>
+                        <form onsubmit="handleRegister(event)">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                                <input type="text" id="regUsername" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="regEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Sekolah</label>
+                                <input type="text" id="regSekolah" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tingkatan</label>
+                                <select id="regTingkatan" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                                    <option value="">Pilih Tingkatan</option>
+                                    <option value="1">Tingkatan 1</option>
+                                    <option value="2">Tingkatan 2</option>
+                                    <option value="3">Tingkatan 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="regPassword" required class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                                    <button type="button" onclick="togglePassword('regPassword')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                        <i id="regPasswordIcon" class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Sahkan Password</label>
+                                <div class="relative">
+                                    <input type="password" id="regConfirmPassword" required class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base">
+                                    <button type="button" onclick="togglePassword('regConfirmPassword')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                        <i id="regConfirmPasswordIcon" class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-medium text-base">
+                                Daftar
+                            </button>
+                        </form>
+                        <p class="text-center mt-4 text-sm text-gray-600">
+                            Sudah ada akaun? 
+                            <button onclick="showLogin()" class="text-indigo-600 hover:underline">Log masuk di sini</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Page -->
+            <div id="homePage" class="page hidden">
+                <!-- Prayer Times -->
+                <div class="prayer-time rounded-xl p-3 md:p-6 text-white mb-2 md:mb-6 mx-0 md:mx-0">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-3 md:mb-4">
+                        <h3 class="text-lg md:text-xl font-bold flex items-center tracking-tight mb-2 md:mb-0">
+                            <i class="fas fa-clock mr-3"></i>Waktu Solat
+                        </h3>
+                        <div class="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2">
+                            <select id="stateSelect" class="bg-white/20 text-white text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 rounded-lg border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 w-full md:w-auto">
+                                <option value="">Pilih Negeri</option>
+                                <option value="johor">Johor</option>
+                                <option value="kedah">Kedah</option>
+                                <option value="kelantan">Kelantan</option>
+                                <option value="melaka">Melaka</option>
+                                <option value="negeri-sembilan">Negeri Sembilan</option>
+                                <option value="pahang">Pahang</option>
+                                <option value="perak">Perak</option>
+                                <option value="perlis">Perlis</option>
+                                <option value="pulau-pinang">Pulau Pinang</option>
+                                <option value="sabah">Sabah</option>
+                                <option value="sarawak" selected>Sarawak</option>
+                                <option value="selangor">Selangor</option>
+                                <option value="terengganu">Terengganu</option>
+                                <option value="wilayah-persekutuan">Wilayah Persekutuan</option>
+                            </select>
+                            <select id="districtSelect" class="bg-white/20 text-white text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 rounded-lg border border-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 w-full md:w-auto">
+                                <option value="">Pilih Daerah</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="prayerTimesContainer">
+                        <div id="prayerTimes" class="grid grid-cols-5 gap-1 md:gap-4">
+                            <!-- Prayer times will be populated by JavaScript -->
+                        </div>
+                        <div id="prayerTimesLoading" class="text-center py-4 hidden">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>Memuat waktu solat...
+                        </div>
+                        <div id="prayerTimesError" class="text-center py-4 hidden">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Gagal memuat waktu solat
+                        </div>
+                    </div>
+                    <div class="text-xs md:text-sm opacity-75 mt-2 md:mt-3 text-center">
+                        <div><span id="prayerDate"></span> • <span id="prayerLocation"></span></div>
+                        <div id="nextPrayerCountdown" class="mt-1"></div>
+                    </div>
+                </div>
+
+                <!-- Guest Warning -->
+                <div id="guestWarning" class="bg-yellow-100 border-l-4 border-yellow-500 p-3 md:p-4 mb-2 md:mb-6 rounded-r-lg mx-0 md:mx-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 mr-3"></i>
+                        <div>
+                            <p class="text-yellow-700 font-medium text-sm md:text-base">Sila log masuk untuk akses penuh</p>
+                            <p class="text-yellow-600 text-xs md:text-sm text-content">Daftar akaun untuk menyimpan progress kuiz anda</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Welcome Title -->
+                <div class="bg-white rounded-xl shadow-lg p-3 md:p-6 mb-2 md:mb-6 mx-0 md:mx-0">
+                    <div id="guestWelcome" class="text-center">
+                        <h4 class="text-lg md:text-xl font-semibold text-indigo-600 mb-2">Selamat Datang ke Portal Nota Pendidikan Islam</h4>
+                    </div>
+                    <div id="userWelcome" class="text-center hidden">
+                        <h3 class="text-xl md:text-2xl font-bold text-gray-800 tracking-tight mb-2">
+                            Assalamualaikum <span id="welcomeUsername"></span>
+                        </h3>
+                        <h4 class="text-lg md:text-xl font-semibold text-indigo-600 mb-2">Sambung ulangkaji anda di sini</h4>
+                        <p id="motivationalMessage" class="text-sm md:text-base text-green-600 font-medium"></p>
+                    </div>
+                </div>
+
+                <!-- Platform Description -->
+                <div class="bg-white rounded-xl shadow-lg p-3 md:p-6 mb-2 md:mb-6 mx-0 md:mx-0">
+                    <p class="text-gray-600 text-content text-sm md:text-base mb-3 md:mb-4 text-center">
+                        Platform pembelajaran interaktif untuk mata pelajaran Pendidikan Islam Tingkatan 1, 2 dan 3. 
+                        Akses nota lengkap, kuiz interaktif, dan pantau kemajuan pembelajaran anda.
+                    </p>
+                    <div class="bg-indigo-50 p-3 md:p-4 rounded-lg border-l-4 border-indigo-500">
+                        <p class="text-indigo-800 text-sm md:text-base font-medium text-center">
+                            <i class="fas fa-hand-point-down mr-2"></i>
+                            Pilih tingkatan yang ingin anda pelajari di bawah untuk mula mengakses nota dan kuiz
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Grade Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-6 mb-2 md:mb-6 mx-0 md:mx-0">
+                    <button onclick="showPage('notaT1')" class="card-hover bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 md:p-6 rounded-xl shadow-lg">
+                        <i class="fas fa-book text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <h4 class="text-lg md:text-xl font-bold tracking-tight">Tingkatan 1</h4>
+                        <p class="text-blue-100 text-xs md:text-sm mt-1 md:mt-2">Nota & Kuiz T1</p>
+                    </button>
+                    <button onclick="showPage('notaT2')" class="card-hover bg-gradient-to-br from-green-500 to-green-600 text-white p-4 md:p-6 rounded-xl shadow-lg">
+                        <i class="fas fa-book text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <h4 class="text-lg md:text-xl font-bold tracking-tight">Tingkatan 2</h4>
+                        <p class="text-green-100 text-xs md:text-sm mt-1 md:mt-2">Nota & Kuiz T2</p>
+                    </button>
+                    <button onclick="showPage('notaT3')" class="card-hover bg-gradient-to-br from-purple-500 to-purple-600 text-white p-4 md:p-6 rounded-xl shadow-lg">
+                        <i class="fas fa-book text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <h4 class="text-lg md:text-xl font-bold tracking-tight">Tingkatan 3</h4>
+                        <p class="text-purple-100 text-xs md:text-sm mt-1 md:mt-2">Nota & Kuiz T3</p>
+                    </button>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="bg-white rounded-xl shadow-lg p-3 md:p-6 mx-0 md:mx-0">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4 flex items-center tracking-tight">
+                        <i class="fas fa-trophy text-yellow-500 mr-3"></i>Papan Pendahulu Keseluruhan
+                    </h3>
+                    <div id="globalLeaderboard" class="space-y-2 md:space-y-3">
+                        <!-- Leaderboard will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota Pages (T1, T2, T3) -->
+            <div id="notaT1" class="page hidden">
+                <div class="bg-white rounded-xl shadow-lg mx-0 md:mx-0">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex">
+                            <button onclick="showTab('t1', 'nota')" class="tab-btn active px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium border-b-2 border-blue-500 text-blue-600">
+                                <i class="fas fa-book mr-1 md:mr-2"></i>Nota
+                            </button>
+                            <button onclick="showTab('t1', 'kuiz')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-question-circle mr-1 md:mr-2"></i>Kuiz
+                            </button>
+                            <button onclick="showTab('t1', 'leaderboard')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-trophy mr-1 md:mr-2"></i>Ranking
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <div class="p-3 md:p-6">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-6 tracking-tight">Pendidikan Islam Tingkatan 1</h2>
+                        
+                        <!-- Nota Tab -->
+                        <div id="t1-nota" class="tab-content">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('quran-t1-1')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            1. Mukmin Yang Bertakwa
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-2')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            2. Memohon Kebahagiaan Hakiki
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-3')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            3. Maha Suci Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-4')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            4. Allah SWT Penguasa Mutlak
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-5')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            5. Indahnya Tajwid
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-6')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            6. Segala Puji Bagi Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-7')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            7. Iblis & Syaitan Yang Durjana
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-8')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            8. Sabar Menghadapi Dugaan Kehidupan
+                                        </button>
+                                        <button onclick="openEmbed('quran-t1-9')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            9. Makanan Halal Lagi Baik
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('hadith-t1-10')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            10. Hadis Sumber Hukum
+                                        </button>
+                                        <button onclick="openEmbed('hadith-t1-11')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            11. Ikhlas Dalam Kehidupan
+                                        </button>
+                                        <button onclick="openEmbed('hadith-t1-12')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            12. Jihad Dalam Islam
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('aqidah-t1-13')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            13. Islam Agama Fitrah
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t1-14')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            14. Akidah Islam
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t1-15')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            15. Beriman Kepada Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t1-16')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            16. al-Khaliq dan al-Musawwir
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('ibadah-t1-17')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            17. Konsep Ibadah dan Jenis Hukum
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-18')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            18. Bersuci Asas Kebersihan
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-19')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            19. Suci Daripada Najis
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-20')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            20. Istinjak Suatu Tuntutan
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-21')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            21. Wuduk & Syarat Kesempurnaan
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-22')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            22. Mandi Wajib Penyuci Diri
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t1-23')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            23. Solat Mercu Kejayaan
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('sirah-t1-24')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            24. Riwayat Hidup Nabi Muhammad SAW
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t1-25')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            25. Era Masyarakat Jahiliah
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t1-26')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            26. Keunggulan Perjuangan Khulafa ar-Rasyidin
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('akhlak-t1-27')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            27. Akhlak Terpuji Hiasan Diri
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t1-28')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            28. Amanah Tunggak Kesejahteraan
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t1-29')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            29. Ilmu Cahaya Kehidupan
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t1-30')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            30. Maruah Diri Cerminan Peribadi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Kuiz Tab -->
+                        <div id="t1-kuiz" class="tab-content hidden">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('quran-t1-1')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mukmin Yang Bertakwa</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t1-2')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Memohon Kebahagiaan Hakiki</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t1-3')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Maha Suci Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t1-4')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Allah SWT Penguasa Mutlak</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t1-5')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Indahnya Tajwid</span>
+                                                <span class="text-xs md:text-sm text-blue-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('hadith-t1-10')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Hadis Sumber Hukum</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('hadith-t1-11')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Ikhlas Dalam Kehidupan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('hadith-t1-12')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Jihad Dalam Islam</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('aqidah-t1-13')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Islam Agama Fitrah</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t1-14')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Akidah Islam</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t1-15')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Beriman Kepada Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-blue-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t1-16')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: al-Khaliq dan al-Musawwir</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('ibadah-t1-17')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Konsep Ibadah dan Jenis Hukum</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-18')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Bersuci Asas Kebersihan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-19')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Suci Daripada Najis</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-20')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Istinjak Suatu Tuntutan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">6 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-21')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Wuduk & Syarat Kesempurnaan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-22')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mandi Wajib Penyuci Diri</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t1-23')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Solat Mercu Kejayaan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">20 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('sirah-t1-24')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Riwayat Hidup Nabi Muhammad SAW</span>
+                                                <span class="text-xs md:text-sm text-blue-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t1-25')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Era Masyarakat Jahiliah</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t1-26')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Keunggulan Perjuangan Khulafa ar-Rasyidin</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('akhlak-t1-27')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Akhlak Terpuji Hiasan Diri</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t1-28')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Amanah Tunggak Kesejahteraan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t1-29')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Ilmu Cahaya Kehidupan</span>
+                                                <span class="text-xs md:text-sm text-blue-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t1-30')" class="block w-full text-left p-2 md:p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Maruah Diri Cerminan Peribadi</span>
+                                                <span class="text-xs md:text-sm text-blue-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Leaderboard Tab -->
+                        <div id="t1-leaderboard" class="tab-content hidden">
+                            <div id="t1LeaderboardContent">
+                                <!-- T1 Leaderboard content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar structure for T2 and T3 -->
+            <div id="notaT2" class="page hidden">
+                <div class="bg-white rounded-xl shadow-lg mx-0 md:mx-0">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex">
+                            <button onclick="showTab('t2', 'nota')" class="tab-btn active px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium border-b-2 border-green-500 text-green-600">
+                                <i class="fas fa-book mr-1 md:mr-2"></i>Nota
+                            </button>
+                            <button onclick="showTab('t2', 'kuiz')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-question-circle mr-1 md:mr-2"></i>Kuiz
+                            </button>
+                            <button onclick="showTab('t2', 'leaderboard')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-trophy mr-1 md:mr-2"></i>Ranking
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <div class="p-3 md:p-6">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-6">Pendidikan Islam Tingkatan 2</h2>
+                        
+                        <div id="t2-nota" class="tab-content">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('quran-t2-1')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            1. Allah SWT Pengurnia Hidayah
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-2')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            2. Hanya Allah SWT Yang Maha Esa
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-3')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            3. Luasnya Kuasa Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-4')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            4. Mudahnya Tajwid
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-5')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            5. Manisnya Persaudaraan
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-6')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            6. Mengharap Keampunan Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-7')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            7. Kesantunan Dakwah Rasulullah SAW
+                                        </button>
+                                        <button onclick="openEmbed('quran-t2-8')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            8. Amanah Terhadap Harta Dan Nyawa
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('hadith-t2-9')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            9. Mungkar Dicegah Hidup Berkat
+                                        </button>
+                                        <button onclick="openEmbed('hadith-t2-10')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            10. Mencari Yang Halal
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('aqidah-t2-11')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            11. Kekuatan Dan Kekuasaan Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t2-12')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            12. Ketaatan Malaikat
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t2-13')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            13. Panduan Daripada Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t2-14')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            14. Solat Berjemaah Pengikat Hati
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('ibadah-t2-15')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            15. Solat Jumaat Wadah Kesatuan
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t2-16')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            16. Tayamum Dengan Debu Suci
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t2-17')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            17. Rukhsah Anugerah Allah SWT
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t2-18')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            18. Puasa Benteng Diri
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t2-19')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            19. Solat Sunat Menampung Kefarduan
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('sirah-t2-20')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            20. Terbitnya Fajar Dakwah
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t2-21')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            21. Hijrah Detik Bersejarah
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t2-22')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            22. Kepimpinan Rasulullah SAW Di Madinah
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t2-23')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            23. Wanita Suri Teladan Umat
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('akhlak-t2-24')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            24. Malu Perisai Iman
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t2-25')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            25. Menyemai Kasih Menuai Sayang
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t2-26')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            26. Muliakan Ibu Bapa Bahagiakan Keluarga
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t2-27')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            27. Santuni Jiranmu
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t2-28')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            28. Masjid Destinasiku
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="t2-kuiz" class="tab-content hidden">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('quran-t2-1')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Allah SWT Pengurnia Hidayah</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-2')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Hanya Allah SWT Yang Maha Esa</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-3')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Luasnya Kuasa Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-4')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mudahnya Tajwid</span>
+                                                <span class="text-xs md:text-sm text-green-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-5')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Manisnya Persaudaraan</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-6')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mengharap Keampunan Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-7')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Kesantunan Dakwah Rasulullah SAW</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t2-8')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Amanah Terhadap Harta Dan Nyawa</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('hadith-t2-9')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mungkar Dicegah Hidup Berkat</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('hadith-t2-10')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Mencari Yang Halal</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('aqidah-t2-11')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Kekuatan Dan Kekuasaan Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t2-12')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Ketaatan Malaikat</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t2-13')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Panduan Daripada Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t2-14')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Solat Berjemaah Pengikat Hati</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('ibadah-t2-15')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Solat Jumaat Wadah Kesatuan</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t2-16')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Tayamum Dengan Debu Suci</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t2-17')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Rukhsah Anugerah Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t2-18')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Puasa Benteng Diri</span>
+                                                <span class="text-xs md:text-sm text-green-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t2-19')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Solat Sunat Menampung Kefarduan</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('sirah-t2-20')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Terbitnya Fajar Dakwah</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t2-21')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Hijrah Detik Bersejarah</span>
+                                                <span class="text-xs md:text-sm text-green-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t2-22')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Kepimpinan Rasulullah SAW Di Madinah</span>
+                                                <span class="text-xs md:text-sm text-green-600">18 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t2-23')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Wanita Suri Teladan Umat</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('akhlak-t2-24')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Malu Perisai Iman</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t2-25')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Menyemai Kasih Menuai Sayang</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t2-26')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Muliakan Ibu Bapa Bahagiakan Keluarga</span>
+                                                <span class="text-xs md:text-sm text-green-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t2-27')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Santuni Jiranmu</span>
+                                                <span class="text-xs md:text-sm text-green-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t2-28')" class="block w-full text-left p-2 md:p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Masjid Destinasiku</span>
+                                                <span class="text-xs md:text-sm text-green-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="t2-leaderboard" class="tab-content hidden">
+                            <div id="t2LeaderboardContent">
+                                <!-- T2 Leaderboard content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notaT3" class="page hidden">
+                <div class="bg-white rounded-xl shadow-lg mx-0 md:mx-0">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex">
+                            <button onclick="showTab('t3', 'nota')" class="tab-btn active px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium border-b-2 border-purple-500 text-purple-600">
+                                <i class="fas fa-book mr-1 md:mr-2"></i>Nota
+                            </button>
+                            <button onclick="showTab('t3', 'kuiz')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-question-circle mr-1 md:mr-2"></i>Kuiz
+                            </button>
+                            <button onclick="showTab('t3', 'leaderboard')" class="tab-btn px-3 md:px-6 py-2 md:py-4 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-trophy mr-1 md:mr-2"></i>Ranking
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <div class="p-3 md:p-6">
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-3 md:mb-6">Pendidikan Islam Tingkatan 3</h2>
+                        
+                        <div id="t3-nota" class="tab-content">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('quran-t3-1')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            1. Allah SWT Pengampun Segala Dosa
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-2')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            2. Al Quran Petunjuk Kebenaran
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-3')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            3. Hukum Tajwid
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-4')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            4. Pancaindera Yang Dimanfaatkan
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-5')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            5. Zikir Penenang Hati
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-6')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            6. Generasi Unggul
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-7')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            7. Kewajipan Memelihara Kehormatan Diri
+                                        </button>
+                                        <button onclick="openEmbed('quran-t3-8')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            8. Penciptaan Manusia Bukti Kekuasaan Allah SWT
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('hadith-t3-9')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            9. Sedekah Kunci Kebaikan
+                                        </button>
+                                        <button onclick="openEmbed('hadith-t3-10')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            10. Hindari Sifat Negatif
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('aqidah-t3-11')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            11. Allah SWT Maha Kaya Pengurnia Rezeki
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t3-12')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            12. Beriman Kepada Rasul
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t3-13')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            13. Beriman Kepada Hari Akhirat
+                                        </button>
+                                        <button onclick="openEmbed('aqidah-t3-14')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            14. Beriman Kepada Qadha Dan Qadar
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('ibadah-t3-15')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            15. Konsep Fardhu Ain Dan Fardhu Kifayah
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t3-16')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            16. Pengurusan Jenazah
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t3-17')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            17. Zakat Penyuci Harta
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t3-18')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            18. Aidilfitri Dan Aidiladha
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t3-19')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            19. Qiamulail Pemangkin Kekuatan Jiwa
+                                        </button>
+                                        <button onclick="openEmbed('ibadah-t3-20')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            20. Solat Sunat Tahiyatul Masjid Dan Solat Sunat Hajat
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('sirah-t3-21')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            21. Perjanjian Hudaibiyah Dan Pembukaan Kota Mekah
+                                        </button>
+                                        <button onclick="openEmbed('sirah-t3-22')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            22. Tokoh Sahabat
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3 tracking-tight">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="openEmbed('akhlak-t3-23')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            23. Pemaaf Melunakkan Hati
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t3-24')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            24. Qanaah Hiasan Peribadi
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t3-25')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            25. Syukur Penyubur Iman
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t3-26')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            26. Adab Berkomunikasi
+                                        </button>
+                                        <button onclick="openEmbed('akhlak-t3-27')" class="block w-full text-left p-2 md:p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base">
+                                            27. Adab Bermusafir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="t3-kuiz" class="tab-content hidden">
+                            <div class="grid gap-2 md:gap-6">
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Al-Quran</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('quran-t3-1')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Allah SWT Pengampun Segala Dosa</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-2')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Al Quran Petunjuk Kebenaran</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-3')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Hukum Tajwid</span>
+                                                <span class="text-xs md:text-sm text-purple-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-4')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Pancaindera Yang Dimanfaatkan</span>
+                                                <span class="text-xs md:text-sm text-purple-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-5')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Zikir Penenang Hati</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-6')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Generasi Unggul</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-7')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Kewajipan Memelihara Kehormatan Diri</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('quran-t3-8')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Penciptaan Manusia Bukti Kekuasaan Allah SWT</span>
+                                                <span class="text-xs md:text-sm text-purple-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Hadith</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('hadith-t3-9')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Sedekah Kunci Kebaikan</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('hadith-t3-10')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Hindari Sifat Negatif</span>
+                                                <span class="text-xs md:text-sm text-purple-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Aqidah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('aqidah-t3-11')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Allah SWT Maha Kaya Pengurnia Rezeki</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t3-12')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Beriman Kepada Rasul</span>
+                                                <span class="text-xs md:text-sm text-purple-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t3-13')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Beriman Kepada Hari Akhirat</span>
+                                                <span class="text-xs md:text-sm text-purple-600">18 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('aqidah-t3-14')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Beriman Kepada Qadha Dan Qadar</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Ibadah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('ibadah-t3-15')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Konsep Fardhu Ain Dan Fardhu Kifayah</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t3-16')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Pengurusan Jenazah</span>
+                                                <span class="text-xs md:text-sm text-purple-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t3-17')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Zakat Penyuci Harta</span>
+                                                <span class="text-xs md:text-sm text-purple-600">20 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t3-18')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Aidilfitri Dan Aidiladha</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t3-19')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Qiamulail Pemangkin Kekuatan Jiwa</span>
+                                                <span class="text-xs md:text-sm text-purple-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('ibadah-t3-20')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Solat Sunat Tahiyatul Masjid Dan Solat Sunat Hajat</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Sirah</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('sirah-t3-21')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Perjanjian Hudaibiyah Dan Pembukaan Kota Mekah</span>
+                                                <span class="text-xs md:text-sm text-purple-600">18 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('sirah-t3-22')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Tokoh Sahabat</span>
+                                                <span class="text-xs md:text-sm text-purple-600">15 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="border border-gray-200 rounded-lg p-3 md:p-4">
+                                    <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-3">Akhlak</h3>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <button onclick="startQuiz('akhlak-t3-23')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Pemaaf Melunakkan Hati</span>
+                                                <span class="text-xs md:text-sm text-purple-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t3-24')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Qanaah Hiasan Peribadi</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t3-25')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Syukur Penyubur Iman</span>
+                                                <span class="text-xs md:text-sm text-purple-600">12 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t3-26')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Adab Berkomunikasi</span>
+                                                <span class="text-xs md:text-sm text-purple-600">10 soalan</span>
+                                            </div>
+                                        </button>
+                                        <button onclick="startQuiz('akhlak-t3-27')" class="block w-full text-left p-2 md:p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm md:text-base">Kuiz: Adab Bermusafir</span>
+                                                <span class="text-xs md:text-sm text-purple-600">8 soalan</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="t3-leaderboard" class="tab-content hidden">
+                            <div id="t3LeaderboardContent">
+                                <!-- T3 Leaderboard content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Embed Page -->
+            <div id="embedPage" class="page hidden">
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-gray-100 px-4 py-3 flex items-center justify-between">
+                        <button onclick="goBack()" class="flex items-center text-gray-600 hover:text-gray-800 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>Kembali
+                        </button>
+                        <h3 id="embedTitle" class="font-medium text-gray-800"></h3>
+                        <div></div>
+                    </div>
+                    <div class="embed-container">
+                        <iframe id="embedFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Page -->
+            <div id="quizPage" class="page hidden">
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mx-0 md:mx-0">
+                        <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <button onclick="goBack()" class="flex items-center text-gray-600 hover:text-gray-800 transition-colors text-sm md:text-base">
+                                <i class="fas fa-arrow-left mr-2"></i>Kembali
+                            </button>
+                            <div class="text-right">
+                                <div id="quizTimer" class="text-base md:text-lg font-bold text-red-600"></div>
+                                <div id="quizProgress" class="text-xs md:text-sm text-gray-600"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="quizContent">
+                            <h2 id="quizTitle" class="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6"></h2>
+                            
+                            <div id="questionContainer" class="mb-4 md:mb-6">
+                                <div class="quiz-progress h-2 rounded-full mb-3 md:mb-4">
+                                    <div id="progressBar" class="h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                
+                                <div id="questionText" class="text-base md:text-lg font-medium text-gray-800 mb-3 md:mb-4"></div>
+                                
+                                <div id="optionsContainer" class="space-y-2 md:space-y-3">
+                                    <!-- Options will be populated by JavaScript -->
+                                </div>
+                                
+                                <div class="flex justify-between mt-4 md:mt-6">
+                                    <button id="prevBtn" onclick="previousQuestion()" class="px-3 md:px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 text-sm md:text-base" disabled>
+                                        Sebelum
+                                    </button>
+                                    <button id="nextBtn" onclick="nextQuestion()" class="px-3 md:px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm md:text-base">
+                                        Seterusnya
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="quizResults" class="hidden text-center">
+                            <i class="fas fa-trophy text-4xl md:text-6xl text-yellow-500 mb-3 md:mb-4"></i>
+                            <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">Kuiz Selesai!</h3>
+                            <div id="scoreDisplay" class="text-lg md:text-xl text-gray-600 mb-4 md:mb-6"></div>
+                            <button onclick="goBack()" class="bg-indigo-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-indigo-700 transition-colors text-sm md:text-base">
+                                Kembali ke Nota
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Page -->
+            <div id="aboutPage" class="page hidden">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 mx-0 md:mx-0">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-8 text-center">Tentang Kami</h2>
+                        
+                        <div class="flex justify-center">
+                            <div class="text-center">
+                                <div class="w-28 h-28 md:w-36 md:h-36 rounded-full mx-auto mb-4 md:mb-6 overflow-hidden shadow-lg">
+                                    <img src="https://lh3.googleusercontent.com/d/1-VhGUFMv0XAFNQ_I0_slos7RmaWQRGSD" alt="Mohammad Saiful bin Abdul Samat" class="w-full h-full object-cover object-top" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div class="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg" style="display: none;">
+                                        <i class="fas fa-user text-3xl md:text-4xl text-white"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Mohammad Saiful bin Abdul Samat</h3>
+                                <div class="text-xs md:text-sm text-gray-500 space-y-2 mb-4">
+                                    <p><i class="fas fa-envelope mr-2 text-indigo-600"></i>g-67503298@moe-dl.edu.my</p>
+                                    <p><i class="fas fa-graduation-cap mr-2 text-indigo-600"></i>Sarjana Muda Pendidikan (Pengajian Islam) UM</p>
+                                    <p><i class="fas fa-university mr-2 text-indigo-600"></i>Sarjana Pendidikan Islam UKM</p>
+                                </div>
+                                <a href="https://facebook.com/saifulsamat142" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                                    <i class="fab fa-facebook-f mr-2"></i>
+                                    Follow untuk Tutorial Inovasi
+                                </a>
+                            </div>
+                            
+
+                        </div>
+                        
+                        <div class="mt-4 md:mt-8 p-4 md:p-6 bg-gray-50 rounded-lg">
+                            <h4 class="text-base md:text-lg font-bold text-gray-800 mb-2 md:mb-3">Misi Kami</h4>
+                            <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                                Menyediakan platform pembelajaran Pendidikan Islam yang interaktif dan mudah diakses untuk pelajar Tingkatan 1, 2 dan 3. 
+                                Kami berkomitmen untuk membantu pelajar memahami dan menghayati ajaran Islam melalui teknologi moden.
+                            </p>
+                        </div>
+                        
+                        <div class="mt-3 md:mt-6 p-4 md:p-6 bg-indigo-50 rounded-lg">
+                            <h4 class="text-base md:text-lg font-bold text-gray-800 mb-2 md:mb-3">Hubungi Kami</h4>
+                            <div class="grid md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm text-gray-600">
+                                <p><i class="fas fa-phone mr-2 text-indigo-600"></i>+60 12-345 6789</p>
+                                <p><i class="fas fa-envelope mr-2 text-indigo-600"></i>info@notapi.edu.my</p>
+                                <p><i class="fas fa-map-marker-alt mr-2 text-indigo-600"></i>Kuala Lumpur, Malaysia</p>
+                                <p><i class="fas fa-globe mr-2 text-indigo-600"></i>www.notapi.edu.my</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full">
+            <div class="text-center">
+                <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Pendaftaran Berjaya!</h3>
+                <p class="text-gray-600 mb-4">Sila simpan maklumat login anda atau ambil screenshot halaman ini.</p>
+                <div class="bg-gray-100 p-3 rounded-lg mb-4 text-left">
+                    <p class="text-sm"><strong>Username:</strong> <span id="savedUsername"></span></p>
+                    <p class="text-sm"><strong>Password:</strong> <span id="savedPassword"></span></p>
+                </div>
+                <button onclick="closeSuccessModal()" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                    Faham
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let currentPage = 'login';
+        let currentQuiz = null;
+        let quizData = {};
+        let userAnswers = [];
+        let currentQuestionIndex = 0;
+        let quizTimer = null;
+        let timeLeft = 0;
+
+        // Motivational messages array
+        const motivationalMessages = [
+            "Semoga Allah permudahkan perjalanan ilmu anda! 📚✨",
+            "Barakallahu fiik! Teruskan usaha yang cemerlang! 🌟",
+            "Ilmu adalah cahaya, teruskan belajar dengan semangat! 💡",
+            "Allah bersama orang yang berusaha. Teruskan! 🤲",
+            "Setiap langkah pembelajaran adalah ibadah. Hebat! 🕌",
+            "Tawakkal dan teruskan belajar. Anda pasti berjaya! 🎯",
+            "Sabr dan istiqamah adalah kunci kejayaan! 🔑",
+            "Belajar hari ini, berjaya esok. Teruskan! 🚀",
+            "Allah akan tinggikan darjat orang yang berilmu! 📈",
+            "Semangat! Setiap soalan yang dijawab adalah kemajuan! 💪",
+            "Istighfar dan teruskan belajar. Anda hebat! 🌙",
+            "Ilmu yang dipelajari hari ini adalah bekal akhirat! ⭐",
+            "Teruskan belajar dengan niat lillahi ta'ala! 🤍",
+            "Setiap usaha anda direkodkan oleh Allah! 📝",
+            "Belajar dengan tekun, berdoa dengan khusyuk! 🤲✨"
+        ];
+
+        // Function to get random motivational message
+        function getRandomMotivationalMessage() {
+            const randomIndex = Math.floor(Math.random() * motivationalMessages.length);
+            return motivationalMessages[randomIndex];
+        }
+
+        // Sample data
+        const sampleQuizzes = {
+            'akidah-t1-1': {
+                title: 'Kuiz: Rukun Iman',
+                timeLimit: 600, // 10 minutes
+                questions: [
+                    {
+                        question: 'Berapakah jumlah Rukun Iman?',
+                        options: ['5', '6', '7', '8'],
+                        correct: 1
+                    },
+                    {
+                        question: 'Apakah Rukun Iman yang pertama?',
+                        options: ['Iman kepada Malaikat', 'Iman kepada Allah', 'Iman kepada Rasul', 'Iman kepada Kitab'],
+                        correct: 1
+                    }
+                ]
+            }
+        };
+
+        const sampleLeaderboard = [
+            { username: 'Ahmad123', score: 95, tingkatan: 'T1' },
+            { username: 'Siti456', score: 88, tingkatan: 'T2' },
+            { username: 'Ali789', score: 82, tingkatan: 'T3' }
+        ];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            loadPrayerTimes();
+            loadLeaderboard();
+        });
+
+        // Password toggle function
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const passwordIcon = document.getElementById(inputId + 'Icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Authentication functions
+        function checkLoginStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showUserInfo();
+            } else {
+                // Show home page even without login
+                showUserInfo();
+            }
+            showPage('home');
+        }
+
+        function showUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            const guestInfo = document.getElementById('guestInfo');
+            const welcomeText = document.getElementById('welcomeText');
+            const guestWarning = document.getElementById('guestWarning');
+            
+            // Welcome message elements
+            const guestWelcome = document.getElementById('guestWelcome');
+            const userWelcome = document.getElementById('userWelcome');
+            const welcomeUsername = document.getElementById('welcomeUsername');
+            const motivationalMessage = document.getElementById('motivationalMessage');
+            
+            // Sidebar elements
+            const sidebarUserInfo = document.getElementById('sidebarUserInfo');
+            const sidebarUsername = document.getElementById('sidebarUsername');
+            const sidebarTingkatan = document.getElementById('sidebarTingkatan');
+            const sidebarLoginBtn = document.getElementById('sidebarLoginBtn');
+            const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+            
+            if (currentUser) {
+                userInfo.classList.remove('hidden');
+                guestInfo.classList.add('hidden');
+                if (guestWarning) guestWarning.style.display = 'none';
+                
+                // Show user welcome message
+                if (guestWelcome) guestWelcome.classList.add('hidden');
+                if (userWelcome) {
+                    userWelcome.classList.remove('hidden');
+                    welcomeUsername.textContent = currentUser.username;
+                    motivationalMessage.textContent = getRandomMotivationalMessage();
+                }
+                
+                // Update sidebar
+                sidebarUserInfo.classList.remove('hidden');
+                sidebarUsername.textContent = currentUser.username;
+                sidebarTingkatan.textContent = `Tingkatan ${currentUser.tingkatan}`;
+                sidebarLoginBtn.classList.add('hidden');
+                sidebarLogoutBtn.classList.remove('hidden');
+            } else {
+                userInfo.classList.add('hidden');
+                guestInfo.classList.remove('hidden');
+                if (guestWarning) guestWarning.style.display = 'block';
+                
+                // Show guest welcome message
+                if (guestWelcome) guestWelcome.classList.remove('hidden');
+                if (userWelcome) userWelcome.classList.add('hidden');
+                
+                // Update sidebar
+                sidebarUserInfo.classList.add('hidden');
+                sidebarLoginBtn.classList.remove('hidden');
+                sidebarLogoutBtn.classList.add('hidden');
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation (in real app, this would be server-side)
+            const savedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const user = savedUsers.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showUserInfo();
+                showPage('home');
+            } else {
+                alert('Username atau password tidak betul');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const sekolah = document.getElementById('regSekolah').value;
+            const tingkatan = document.getElementById('regTingkatan').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Password tidak sepadan');
+                return;
+            }
+            
+            const savedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            
+            if (savedUsers.find(u => u.username === username)) {
+                alert('Username sudah wujud');
+                return;
+            }
+            
+            const newUser = {
+                username,
+                email,
+                sekolah,
+                tingkatan,
+                password,
+                registeredAt: new Date().toISOString()
+            };
+            
+            savedUsers.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(savedUsers));
+            
+            // Show success modal
+            document.getElementById('savedUsername').textContent = username;
+            document.getElementById('savedPassword').textContent = password;
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            showLogin();
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showUserInfo();
+            showPage('login');
+        }
+
+        // Sidebar functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                // Open sidebar
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Close sidebar
+                closeSidebar();
+            }
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Navigation functions
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            let pageId;
+            switch(pageName) {
+                case 'login':
+                    pageId = 'loginPage';
+                    break;
+                case 'home':
+                    pageId = 'homePage';
+                    break;
+                case 'notaT1':
+                    pageId = 'notaT1';
+                    break;
+                case 'notaT2':
+                    pageId = 'notaT2';
+                    break;
+                case 'notaT3':
+                    pageId = 'notaT3';
+                    break;
+                case 'about':
+                    pageId = 'aboutPage';
+                    break;
+                default:
+                    pageId = 'homePage';
+            }
+            
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById(pageId).classList.add('fade-in');
+            currentPage = pageName;
+            
+            // Update sidebar active state
+            updateSidebarNavigation();
+        }
+
+        function updateSidebarNavigation() {
+            // Remove active class from all sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('bg-indigo-100', 'text-indigo-600', 'bg-blue-100', 'text-blue-600', 'bg-green-100', 'text-green-600', 'bg-purple-100', 'text-purple-600');
+            });
+            
+            // Add active class to current page sidebar item
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                const text = item.querySelector('span').textContent;
+                if (currentPage === 'home' && text === 'Halaman Utama') {
+                    item.classList.add('bg-indigo-100', 'text-indigo-600');
+                } else if (currentPage === 'notaT1' && text === 'Tingkatan 1') {
+                    item.classList.add('bg-blue-100', 'text-blue-600');
+                } else if (currentPage === 'notaT2' && text === 'Tingkatan 2') {
+                    item.classList.add('bg-green-100', 'text-green-600');
+                } else if (currentPage === 'notaT3' && text === 'Tingkatan 3') {
+                    item.classList.add('bg-purple-100', 'text-purple-600');
+                } else if (currentPage === 'about' && text === 'Tentang Kami') {
+                    item.classList.add('bg-indigo-100', 'text-indigo-600');
+                }
+            });
+        }
+
+        // Tab functions
+        function showTab(tingkatan, tabName) {
+            // Hide all tab contents for this tingkatan
+            document.querySelectorAll(`#${tingkatan}-nota, #${tingkatan}-kuiz, #${tingkatan}-leaderboard`).forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Show selected tab
+            document.getElementById(`${tingkatan}-${tabName}`).classList.remove('hidden');
+            
+            // Update tab buttons
+            const tabButtons = document.querySelectorAll(`#nota${tingkatan.toUpperCase()} .tab-btn`);
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active', 'border-blue-500', 'text-blue-600', 'border-green-500', 'text-green-600', 'border-purple-500', 'text-purple-600');
+                btn.classList.add('text-gray-500');
+            });
+            
+            // Add active class to clicked tab
+            const activeBtn = event.target;
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('text-gray-500');
+            
+            if (tingkatan === 't1') {
+                activeBtn.classList.add('border-blue-500', 'text-blue-600');
+            } else if (tingkatan === 't2') {
+                activeBtn.classList.add('border-green-500', 'text-green-600');
+            } else if (tingkatan === 't3') {
+                activeBtn.classList.add('border-purple-500', 'text-purple-600');
+            }
+            
+            // Load leaderboard if needed
+            if (tabName === 'leaderboard') {
+                loadTingkatanLeaderboard(tingkatan);
+            }
+        }
+
+        // Embed functions
+        function openEmbed(topicId) {
+            // This would normally get the actual Google Drive embed URL
+            const embedUrl = `https://drive.google.com/file/d/SAMPLE_FILE_ID/preview`;
+            
+            document.getElementById('embedFrame').src = embedUrl;
+            document.getElementById('embedTitle').textContent = getTopicTitle(topicId);
+            showPage('embed');
+            document.getElementById('embedPage').classList.remove('hidden');
+            document.getElementById('embedPage').classList.add('fade-in');
+        }
+
+        function getTopicTitle(topicId) {
+            const titles = {
+                'akidah-t1-1': 'Rukun Iman',
+                'akidah-t1-2': 'Iman Kepada Allah',
+                'ibadah-t1-1': 'Rukun Islam',
+                'ibadah-t1-2': 'Solat Fardhu',
+                'akhlak-t2-1': 'Akhlak Mahmudah',
+                'akhlak-t2-2': 'Akhlak Mazmumah',
+                'sirah-t3-1': 'Kelahiran Rasulullah SAW',
+                'sirah-t3-2': 'Dakwah Rasulullah SAW'
+            };
+            return titles[topicId] || 'Nota';
+        }
+
+        // Quiz functions
+        function startQuiz(quizId) {
+            if (!currentUser) {
+                alert('Sila log masuk untuk mengambil kuiz');
+                return;
+            }
+            
+            currentQuiz = sampleQuizzes[quizId];
+            if (!currentQuiz) {
+                alert('Kuiz tidak dijumpai');
+                return;
+            }
+            
+            userAnswers = new Array(currentQuiz.questions.length).fill(null);
+            currentQuestionIndex = 0;
+            timeLeft = currentQuiz.timeLimit;
+            
+            document.getElementById('quizTitle').textContent = currentQuiz.title;
+            showPage('quiz');
+            document.getElementById('quizPage').classList.remove('hidden');
+            document.getElementById('quizPage').classList.add('fade-in');
+            
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            const question = currentQuiz.questions[currentQuestionIndex];
+            document.getElementById('questionText').textContent = `${currentQuestionIndex + 1}. ${question.question}`;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = `w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors ${userAnswers[currentQuestionIndex] === index ? 'bg-indigo-100 border-indigo-500' : ''}`;
+                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+            
+            updateQuizProgress();
+            updateNavigationButtons();
+        }
+
+        function selectAnswer(answerIndex) {
+            userAnswers[currentQuestionIndex] = answerIndex;
+            loadQuestion(); // Reload to show selection
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function updateQuizProgress() {
+            const progress = ((currentQuestionIndex + 1) / currentQuiz.questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('quizProgress').textContent = `Soalan ${currentQuestionIndex + 1} daripada ${currentQuiz.questions.length}`;
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.textContent = currentQuestionIndex === currentQuiz.questions.length - 1 ? 'Selesai' : 'Seterusnya';
+        }
+
+        function startTimer() {
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('quizTimer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function finishQuiz() {
+            clearInterval(quizTimer);
+            
+            let correctAnswers = 0;
+            currentQuiz.questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+            
+            const score = Math.round((correctAnswers / currentQuiz.questions.length) * 100);
+            
+            // Save score (in real app, this would sync to Google Sheets)
+            saveQuizScore(score);
+            
+            // Show results
+            document.getElementById('questionContainer').classList.add('hidden');
+            document.getElementById('quizResults').classList.remove('hidden');
+            document.getElementById('scoreDisplay').textContent = `Markah anda: ${score}% (${correctAnswers}/${currentQuiz.questions.length})`;
+        }
+
+        function saveQuizScore(score) {
+            const scores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+            scores.push({
+                username: currentUser.username,
+                score: score,
+                tingkatan: currentUser.tingkatan,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('quizScores', JSON.stringify(scores));
+        }
+
+        function goBack() {
+            if (currentPage === 'embed' || currentPage === 'quiz') {
+                // Go back to the previous nota page
+                const lastNotaPage = localStorage.getItem('lastNotaPage') || 'home';
+                showPage(lastNotaPage);
+            }
+        }
+
+        // District data for each state
+        const stateDistricts = {
+            'johor': [
+                { value: 'johor-bahru', name: 'Johor Bahru' },
+                { value: 'batu-pahat', name: 'Batu Pahat' },
+                { value: 'kluang', name: 'Kluang' },
+                { value: 'muar', name: 'Muar' },
+                { value: 'pontian', name: 'Pontian' },
+                { value: 'segamat', name: 'Segamat' },
+                { value: 'kota-tinggi', name: 'Kota Tinggi' },
+                { value: 'mersing', name: 'Mersing' },
+                { value: 'kulai', name: 'Kulai' },
+                { value: 'tangkak', name: 'Tangkak' }
+            ],
+            'kedah': [
+                { value: 'alor-setar', name: 'Alor Setar' },
+                { value: 'sungai-petani', name: 'Sungai Petani' },
+                { value: 'kulim', name: 'Kulim' },
+                { value: 'langkawi', name: 'Langkawi' },
+                { value: 'kubang-pasu', name: 'Kubang Pasu' },
+                { value: 'kuala-muda', name: 'Kuala Muda' },
+                { value: 'yan', name: 'Yan' },
+                { value: 'pendang', name: 'Pendang' },
+                { value: 'padang-terap', name: 'Padang Terap' },
+                { value: 'sik', name: 'Sik' },
+                { value: 'baling', name: 'Baling' },
+                { value: 'bandar-baharu', name: 'Bandar Baharu' }
+            ],
+            'kelantan': [
+                { value: 'kota-bharu', name: 'Kota Bharu' },
+                { value: 'tanah-merah', name: 'Tanah Merah' },
+                { value: 'machang', name: 'Machang' },
+                { value: 'gua-musang', name: 'Gua Musang' },
+                { value: 'tumpat', name: 'Tumpat' },
+                { value: 'bachok', name: 'Bachok' },
+                { value: 'pasir-mas', name: 'Pasir Mas' },
+                { value: 'pasir-puteh', name: 'Pasir Puteh' },
+                { value: 'kuala-krai', name: 'Kuala Krai' },
+                { value: 'jeli', name: 'Jeli' }
+            ],
+            'melaka': [
+                { value: 'melaka-tengah', name: 'Melaka Tengah' },
+                { value: 'alor-gajah', name: 'Alor Gajah' },
+                { value: 'jasin', name: 'Jasin' }
+            ],
+            'negeri-sembilan': [
+                { value: 'seremban', name: 'Seremban' },
+                { value: 'port-dickson', name: 'Port Dickson' },
+                { value: 'rembau', name: 'Rembau' },
+                { value: 'jelebu', name: 'Jelebu' },
+                { value: 'kuala-pilah', name: 'Kuala Pilah' },
+                { value: 'jempol', name: 'Jempol' },
+                { value: 'tampin', name: 'Tampin' }
+            ],
+            'pahang': [
+                { value: 'kuantan', name: 'Kuantan' },
+                { value: 'temerloh', name: 'Temerloh' },
+                { value: 'bentong', name: 'Bentong' },
+                { value: 'cameron-highlands', name: 'Cameron Highlands' },
+                { value: 'jerantut', name: 'Jerantut' },
+                { value: 'lipis', name: 'Lipis' },
+                { value: 'pekan', name: 'Pekan' },
+                { value: 'raub', name: 'Raub' },
+                { value: 'rompin', name: 'Rompin' },
+                { value: 'maran', name: 'Maran' },
+                { value: 'bera', name: 'Bera' }
+            ],
+            'perak': [
+                { value: 'ipoh', name: 'Ipoh' },
+                { value: 'taiping', name: 'Taiping' },
+                { value: 'teluk-intan', name: 'Teluk Intan' },
+                { value: 'kuala-kangsar', name: 'Kuala Kangsar' },
+                { value: 'lumut', name: 'Lumut' },
+                { value: 'sitiawan', name: 'Sitiawan' },
+                { value: 'parit-buntar', name: 'Parit Buntar' },
+                { value: 'tanjung-malim', name: 'Tanjung Malim' },
+                { value: 'kampar', name: 'Kampar' },
+                { value: 'bagan-serai', name: 'Bagan Serai' },
+                { value: 'seri-iskandar', name: 'Seri Iskandar' },
+                { value: 'gerik', name: 'Gerik' }
+            ],
+            'perlis': [
+                { value: 'kangar', name: 'Kangar' },
+                { value: 'arau', name: 'Arau' }
+            ],
+            'pulau-pinang': [
+                { value: 'georgetown', name: 'Georgetown' },
+                { value: 'butterworth', name: 'Butterworth' },
+                { value: 'bukit-mertajam', name: 'Bukit Mertajam' },
+                { value: 'balik-pulau', name: 'Balik Pulau' },
+                { value: 'nibong-tebal', name: 'Nibong Tebal' }
+            ],
+            'sabah': [
+                { value: 'kota-kinabalu', name: 'Kota Kinabalu' },
+                { value: 'sandakan', name: 'Sandakan' },
+                { value: 'tawau', name: 'Tawau' },
+                { value: 'lahad-datu', name: 'Lahad Datu' },
+                { value: 'keningau', name: 'Keningau' },
+                { value: 'kota-belud', name: 'Kota Belud' },
+                { value: 'kudat', name: 'Kudat' },
+                { value: 'papar', name: 'Papar' },
+                { value: 'penampang', name: 'Penampang' },
+                { value: 'putatan', name: 'Putatan' },
+                { value: 'ranau', name: 'Ranau' },
+                { value: 'semporna', name: 'Semporna' },
+                { value: 'sipitang', name: 'Sipitang' },
+                { value: 'tambunan', name: 'Tambunan' },
+                { value: 'tuaran', name: 'Tuaran' }
+            ],
+            'sarawak': [
+                { value: 'kuching', name: 'Kuching' },
+                { value: 'miri', name: 'Miri' },
+                { value: 'sibu', name: 'Sibu' },
+                { value: 'bintulu', name: 'Bintulu' },
+                { value: 'limbang', name: 'Limbang' },
+                { value: 'samarahan', name: 'Samarahan' },
+                { value: 'sri-aman', name: 'Sri Aman' },
+                { value: 'betong', name: 'Betong' },
+                { value: 'sarikei', name: 'Sarikei' },
+                { value: 'mukah', name: 'Mukah' },
+                { value: 'kapit', name: 'Kapit' },
+                { value: 'lawas', name: 'Lawas' },
+                { value: 'matu', name: 'Matu' },
+                { value: 'daro', name: 'Daro' },
+                { value: 'subis', name: 'Subis' },
+                { value: 'tatau', name: 'Tatau' },
+                { value: 'beluru', name: 'Beluru' },
+                { value: 'song', name: 'Song' },
+                { value: 'kanowit', name: 'Kanowit' },
+                { value: 'selangau', name: 'Selangau' },
+                { value: 'tanjung-manis', name: 'Tanjung Manis' },
+                { value: 'dalat', name: 'Dalat' },
+                { value: 'julau', name: 'Julau' },
+                { value: 'pakan', name: 'Pakan' },
+                { value: 'meradong', name: 'Meradong' },
+                { value: 'lubok-antu', name: 'Lubok Antu' },
+                { value: 'saratok', name: 'Saratok' },
+                { value: 'roban', name: 'Roban' },
+                { value: 'debak', name: 'Debak' },
+                { value: 'kabong', name: 'Kabong' },
+                { value: 'lingga', name: 'Lingga' },
+                { value: 'engkilili', name: 'Engkilili' },
+                { value: 'spaoh', name: 'Spaoh' }
+            ],
+            'selangor': [
+                { value: 'shah-alam', name: 'Shah Alam' },
+                { value: 'petaling-jaya', name: 'Petaling Jaya' },
+                { value: 'subang-jaya', name: 'Subang Jaya' },
+                { value: 'klang', name: 'Klang' },
+                { value: 'kajang', name: 'Kajang' },
+                { value: 'ampang', name: 'Ampang' },
+                { value: 'selayang', name: 'Selayang' },
+                { value: 'serdang', name: 'Serdang' },
+                { value: 'puchong', name: 'Puchong' },
+                { value: 'rawang', name: 'Rawang' },
+                { value: 'bangi', name: 'Bangi' },
+                { value: 'sepang', name: 'Sepang' },
+                { value: 'kuala-selangor', name: 'Kuala Selangor' },
+                { value: 'sabak-bernam', name: 'Sabak Bernam' },
+                { value: 'hulu-selangor', name: 'Hulu Selangor' }
+            ],
+            'terengganu': [
+                { value: 'kuala-terengganu', name: 'Kuala Terengganu' },
+                { value: 'dungun', name: 'Dungun' },
+                { value: 'kemaman', name: 'Kemaman' },
+                { value: 'marang', name: 'Marang' },
+                { value: 'hulu-terengganu', name: 'Hulu Terengganu' },
+                { value: 'besut', name: 'Besut' },
+                { value: 'setiu', name: 'Setiu' },
+                { value: 'kuala-nerus', name: 'Kuala Nerus' }
+            ],
+            'wilayah-persekutuan': [
+                { value: 'kuala-lumpur', name: 'Kuala Lumpur' },
+                { value: 'putrajaya', name: 'Putrajaya' },
+                { value: 'labuan', name: 'Labuan' }
+            ]
+        };
+
+        // Prayer times functions
+        async function loadPrayerTimes() {
+            const savedState = localStorage.getItem('selectedState') || 'sarawak';
+            const savedDistrict = localStorage.getItem('selectedDistrict') || 'samarahan';
+            
+            document.getElementById('stateSelect').value = savedState;
+            populateDistricts(savedState);
+            document.getElementById('districtSelect').value = savedDistrict;
+            
+            // Add event listeners
+            document.getElementById('stateSelect').addEventListener('change', function() {
+                const selectedState = this.value;
+                localStorage.setItem('selectedState', selectedState);
+                populateDistricts(selectedState);
+                
+                // Reset district selection
+                document.getElementById('districtSelect').value = '';
+                localStorage.removeItem('selectedDistrict');
+            });
+            
+            document.getElementById('districtSelect').addEventListener('change', function() {
+                const selectedDistrict = this.value;
+                localStorage.setItem('selectedDistrict', selectedDistrict);
+                if (selectedDistrict) {
+                    fetchPrayerTimes(selectedDistrict);
+                }
+            });
+            
+            if (savedDistrict) {
+                await fetchPrayerTimes(savedDistrict);
+            }
+        }
+
+        function populateDistricts(state) {
+            const districtSelect = document.getElementById('districtSelect');
+            districtSelect.innerHTML = '<option value="">Pilih Daerah</option>';
+            
+            if (state && stateDistricts[state]) {
+                stateDistricts[state].forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district.value;
+                    option.textContent = district.name;
+                    districtSelect.appendChild(option);
+                });
+                
+                // Set default to Samarahan if Sarawak is selected
+                if (state === 'sarawak') {
+                    districtSelect.value = 'samarahan';
+                    localStorage.setItem('selectedDistrict', 'samarahan');
+                }
+            }
+        }
+
+        async function fetchPrayerTimes(location) {
+            const loadingEl = document.getElementById('prayerTimesLoading');
+            const errorEl = document.getElementById('prayerTimesError');
+            const timesEl = document.getElementById('prayerTimes');
+            
+            // Show loading
+            loadingEl.classList.remove('hidden');
+            errorEl.classList.add('hidden');
+            timesEl.classList.add('hidden');
+            
+            try {
+                // Get coordinates for the location
+                const coordinates = getLocationCoordinates(location);
+                
+                // Fetch from Aladhan API
+                const today = new Date();
+                const day = today.getDate();
+                const month = today.getMonth() + 1;
+                const year = today.getFullYear();
+                
+                const response = await fetch(
+                    `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${coordinates.lat}&longitude=${coordinates.lng}&method=3`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch prayer times');
+                }
+                
+                const data = await response.json();
+                const todayData = data.data.find(d => parseInt(d.date.gregorian.day) === day);
+                
+                if (!todayData) {
+                    throw new Error('No data for today');
+                }
+                
+                const prayerTimes = {
+                    'Subuh': formatTime(todayData.timings.Fajr),
+                    'Zohor': formatTime(todayData.timings.Dhuhr),
+                    'Asar': formatTime(todayData.timings.Asr),
+                    'Maghrib': formatTime(todayData.timings.Maghrib),
+                    'Isyak': formatTime(todayData.timings.Isha)
+                };
+                
+                displayPrayerTimes(prayerTimes, location);
+                
+            } catch (error) {
+                console.error('Error fetching prayer times:', error);
+                // Fallback to sample data
+                const fallbackTimes = {
+                    'Subuh': '05:45',
+                    'Zohor': '13:15',
+                    'Asar': '16:30',
+                    'Maghrib': '19:20',
+                    'Isyak': '20:35'
+                };
+                displayPrayerTimes(fallbackTimes, location);
+                
+                // Show error briefly
+                errorEl.classList.remove('hidden');
+                setTimeout(() => {
+                    errorEl.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        function getLocationCoordinates(location) {
+            const coordinates = {
+                // Johor
+                'johor-bahru': { lat: 1.4927, lng: 103.7414 },
+                'batu-pahat': { lat: 1.8542, lng: 102.9325 },
+                'kluang': { lat: 2.0301, lng: 103.3185 },
+                'muar': { lat: 2.0442, lng: 102.5689 },
+                'pontian': { lat: 1.4869, lng: 103.3890 },
+                'segamat': { lat: 2.5154, lng: 102.8154 },
+                'kota-tinggi': { lat: 1.7378, lng: 103.8999 },
+                'mersing': { lat: 2.4312, lng: 103.8405 },
+                'kulai': { lat: 1.6667, lng: 103.6000 },
+                'tangkak': { lat: 2.2667, lng: 102.5500 },
+                
+                // Kedah
+                'alor-setar': { lat: 6.1248, lng: 100.3678 },
+                'sungai-petani': { lat: 5.6470, lng: 100.4871 },
+                'kulim': { lat: 5.3647, lng: 100.5616 },
+                'langkawi': { lat: 6.3500, lng: 99.8000 },
+                'kubang-pasu': { lat: 6.2833, lng: 100.2000 },
+                'kuala-muda': { lat: 5.5333, lng: 100.4167 },
+                'yan': { lat: 5.9167, lng: 100.4000 },
+                'pendang': { lat: 5.9833, lng: 100.4833 },
+                'padang-terap': { lat: 6.1500, lng: 100.6167 },
+                'sik': { lat: 5.8000, lng: 100.6667 },
+                'baling': { lat: 5.6667, lng: 100.9167 },
+                'bandar-baharu': { lat: 5.0167, lng: 100.3500 },
+                
+                // Kelantan
+                'kota-bharu': { lat: 6.1248, lng: 102.2386 },
+                'tanah-merah': { lat: 5.8000, lng: 102.1500 },
+                'machang': { lat: 5.7667, lng: 102.2167 },
+                'gua-musang': { lat: 4.8833, lng: 101.9667 },
+                'tumpat': { lat: 6.2000, lng: 102.1667 },
+                'bachok': { lat: 6.0167, lng: 102.4167 },
+                'pasir-mas': { lat: 6.0500, lng: 102.1333 },
+                'pasir-puteh': { lat: 5.8333, lng: 102.4000 },
+                'kuala-krai': { lat: 5.5333, lng: 102.2000 },
+                'jeli': { lat: 5.7000, lng: 101.8333 },
+                
+                // Melaka
+                'melaka-tengah': { lat: 2.2055, lng: 102.2502 },
+                'alor-gajah': { lat: 2.3792, lng: 102.2083 },
+                'jasin': { lat: 2.3167, lng: 102.4167 },
+                
+                // Negeri Sembilan
+                'seremban': { lat: 2.7297, lng: 101.9381 },
+                'port-dickson': { lat: 2.5420, lng: 101.7971 },
+                'rembau': { lat: 2.5833, lng: 102.0833 },
+                'jelebu': { lat: 2.9833, lng: 102.1167 },
+                'kuala-pilah': { lat: 2.7333, lng: 102.2500 },
+                'jempol': { lat: 2.4167, lng: 102.3500 },
+                'tampin': { lat: 2.4667, lng: 102.2333 },
+                
+                // Pahang
+                'kuantan': { lat: 3.8077, lng: 103.3260 },
+                'temerloh': { lat: 3.4500, lng: 102.4167 },
+                'bentong': { lat: 3.5167, lng: 101.9000 },
+                'cameron-highlands': { lat: 4.4667, lng: 101.3833 },
+                'jerantut': { lat: 3.9333, lng: 102.3667 },
+                'lipis': { lat: 4.1833, lng: 102.0500 },
+                'pekan': { lat: 3.4833, lng: 103.4000 },
+                'raub': { lat: 3.7833, lng: 101.8667 },
+                'rompin': { lat: 2.8000, lng: 103.2167 },
+                'maran': { lat: 3.5500, lng: 102.7500 },
+                'bera': { lat: 3.1833, lng: 102.6000 },
+                
+                // Perak
+                'ipoh': { lat: 4.5975, lng: 101.0901 },
+                'taiping': { lat: 4.8500, lng: 100.7333 },
+                'teluk-intan': { lat: 4.0167, lng: 101.0167 },
+                'kuala-kangsar': { lat: 4.7667, lng: 100.9333 },
+                'lumut': { lat: 4.2333, lng: 100.6333 },
+                'sitiawan': { lat: 4.2167, lng: 100.7000 },
+                'parit-buntar': { lat: 5.1167, lng: 100.4833 },
+                'tanjung-malim': { lat: 3.6833, lng: 101.5167 },
+                'kampar': { lat: 4.3167, lng: 101.1500 },
+                'bagan-serai': { lat: 5.0167, lng: 100.5500 },
+                'seri-iskandar': { lat: 4.3667, lng: 100.9667 },
+                'gerik': { lat: 5.4167, lng: 101.1167 },
+                
+                // Perlis
+                'kangar': { lat: 6.4414, lng: 100.1986 },
+                'arau': { lat: 6.4333, lng: 100.2667 },
+                
+                // Pulau Pinang
+                'georgetown': { lat: 5.4164, lng: 100.3327 },
+                'butterworth': { lat: 5.3983, lng: 100.3639 },
+                'bukit-mertajam': { lat: 5.3617, lng: 100.4650 },
+                'balik-pulau': { lat: 5.3500, lng: 100.2333 },
+                'nibong-tebal': { lat: 5.1667, lng: 100.4833 },
+                
+                // Sabah
+                'kota-kinabalu': { lat: 5.9804, lng: 116.0735 },
+                'sandakan': { lat: 5.8402, lng: 118.1179 },
+                'tawau': { lat: 4.2331, lng: 117.8831 },
+                'lahad-datu': { lat: 5.0167, lng: 118.3333 },
+                'keningau': { lat: 5.3333, lng: 116.1667 },
+                'kota-belud': { lat: 6.3333, lng: 116.4333 },
+                'kudat': { lat: 6.8833, lng: 116.8333 },
+                'papar': { lat: 5.7333, lng: 115.9333 },
+                'penampang': { lat: 5.9333, lng: 116.1000 },
+                'putatan': { lat: 5.9000, lng: 116.0667 },
+                'ranau': { lat: 5.9500, lng: 116.6833 },
+                'semporna': { lat: 4.4833, lng: 118.6167 },
+                'sipitang': { lat: 5.1167, lng: 115.5500 },
+                'tambunan': { lat: 5.6833, lng: 116.3833 },
+                'tuaran': { lat: 6.1833, lng: 116.2333 },
+                
+                // Sarawak
+                'kuching': { lat: 1.5533, lng: 110.3592 },
+                'miri': { lat: 4.3947, lng: 113.9918 },
+                'sibu': { lat: 2.3000, lng: 111.8167 },
+                'bintulu': { lat: 3.1667, lng: 113.0333 },
+                'limbang': { lat: 4.7500, lng: 115.0000 },
+                'samarahan': { lat: 1.4667, lng: 110.4000 },
+                'sri-aman': { lat: 1.2333, lng: 111.4667 },
+                'betong': { lat: 1.8667, lng: 111.5667 },
+                'sarikei': { lat: 2.1167, lng: 111.5167 },
+                'mukah': { lat: 2.9000, lng: 112.0833 },
+                'kapit': { lat: 2.0167, lng: 112.9333 },
+                'lawas': { lat: 4.8500, lng: 115.4167 },
+                'matu': { lat: 2.6333, lng: 111.4167 },
+                'daro': { lat: 2.3333, lng: 111.2833 },
+                'subis': { lat: 4.2333, lng: 113.7833 },
+                'tatau': { lat: 3.1333, lng: 113.2333 },
+                'beluru': { lat: 2.6500, lng: 113.2000 },
+                'song': { lat: 2.4667, lng: 112.8333 },
+                'kanowit': { lat: 2.1667, lng: 112.1333 },
+                'selangau': { lat: 2.9667, lng: 111.6000 },
+                'tanjung-manis': { lat: 2.1833, lng: 111.2000 },
+                'dalat': { lat: 2.4000, lng: 111.4000 },
+                'julau': { lat: 2.3500, lng: 111.7333 },
+                'pakan': { lat: 2.1333, lng: 111.6000 },
+                'meradong': { lat: 2.2167, lng: 111.6833 },
+                'lubok-antu': { lat: 1.3833, lng: 111.7833 },
+                'saratok': { lat: 1.7833, lng: 110.8333 },
+                'roban': { lat: 1.6167, lng: 110.8000 },
+                'debak': { lat: 1.4167, lng: 110.1833 },
+                'kabong': { lat: 1.7167, lng: 109.7333 },
+                'lingga': { lat: 1.5333, lng: 109.9500 },
+                'engkilili': { lat: 1.2833, lng: 111.4167 },
+                'spaoh': { lat: 1.4000, lng: 111.1333 },
+                
+                // Selangor
+                'shah-alam': { lat: 3.0733, lng: 101.5185 },
+                'petaling-jaya': { lat: 3.1073, lng: 101.6067 },
+                'subang-jaya': { lat: 3.0436, lng: 101.5810 },
+                'klang': { lat: 3.0333, lng: 101.4500 },
+                'kajang': { lat: 2.9922, lng: 101.7904 },
+                'ampang': { lat: 3.1500, lng: 101.7667 },
+                'selayang': { lat: 3.2667, lng: 101.6500 },
+                'serdang': { lat: 3.0167, lng: 101.7167 },
+                'puchong': { lat: 3.0333, lng: 101.6167 },
+                'rawang': { lat: 3.3167, lng: 101.5833 },
+                'bangi': { lat: 2.9333, lng: 101.7833 },
+                'sepang': { lat: 2.7333, lng: 101.7000 },
+                'kuala-selangor': { lat: 3.3333, lng: 101.2500 },
+                'sabak-bernam': { lat: 3.8000, lng: 100.9833 },
+                'hulu-selangor': { lat: 3.4167, lng: 101.5333 },
+                
+                // Terengganu
+                'kuala-terengganu': { lat: 5.3302, lng: 103.1408 },
+                'dungun': { lat: 4.7667, lng: 103.4167 },
+                'kemaman': { lat: 4.2333, lng: 103.4333 },
+                'marang': { lat: 5.2167, lng: 103.2167 },
+                'hulu-terengganu': { lat: 5.1667, lng: 102.9167 },
+                'besut': { lat: 5.8167, lng: 102.5667 },
+                'setiu': { lat: 5.6833, lng: 102.8500 },
+                'kuala-nerus': { lat: 5.3167, lng: 103.0833 },
+                
+                // Wilayah Persekutuan
+                'kuala-lumpur': { lat: 3.139, lng: 101.6869 },
+                'putrajaya': { lat: 2.9264, lng: 101.6964 },
+                'labuan': { lat: 5.2767, lng: 115.2417 }
+            };
+            return coordinates[location] || coordinates['samarahan'];
+        }
+
+        function getLocationName(location) {
+            // Find the location in stateDistricts and get the proper name with state
+            for (const [state, districts] of Object.entries(stateDistricts)) {
+                const district = districts.find(d => d.value === location);
+                if (district) {
+                    const stateName = state.split('-').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ');
+                    return `${district.name}, ${stateName}`;
+                }
+            }
+            return 'Samarahan, Sarawak';
+        }
+
+        function formatTime(timeString) {
+            // Remove timezone info and format to HH:MM
+            return timeString.split(' ')[0].substring(0, 5);
+        }
+
+        function displayPrayerTimes(prayerTimes, location) {
+            const container = document.getElementById('prayerTimes');
+            const loadingEl = document.getElementById('prayerTimesLoading');
+            const timesEl = document.getElementById('prayerTimes');
+            
+            container.innerHTML = '';
+            
+            Object.entries(prayerTimes).forEach(([prayer, time]) => {
+                const div = document.createElement('div');
+                div.className = 'text-center';
+                div.innerHTML = `
+                    <div class="font-semibold text-xs md:text-base">${prayer}</div>
+                    <div class="text-xs md:text-sm opacity-90">${time}</div>
+                `;
+                container.appendChild(div);
+            });
+            
+            // Update date and location
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('prayerDate').textContent = today.toLocaleDateString('ms-MY', options);
+            document.getElementById('prayerLocation').textContent = getLocationName(location);
+            
+            // Start countdown timer
+            startPrayerCountdown(prayerTimes);
+            
+            // Hide loading, show times
+            loadingEl.classList.add('hidden');
+            timesEl.classList.remove('hidden');
+        }
+
+        let prayerCountdownInterval = null;
+
+        function startPrayerCountdown(prayerTimes) {
+            // Clear existing interval
+            if (prayerCountdownInterval) {
+                clearInterval(prayerCountdownInterval);
+            }
+
+            function updateCountdown() {
+                const now = new Date();
+                const currentTime = now.getHours() * 60 + now.getMinutes();
+                
+                // Convert prayer times to minutes
+                const prayers = [
+                    { name: 'Subuh', time: timeToMinutes(prayerTimes['Subuh']) },
+                    { name: 'Zohor', time: timeToMinutes(prayerTimes['Zohor']) },
+                    { name: 'Asar', time: timeToMinutes(prayerTimes['Asar']) },
+                    { name: 'Maghrib', time: timeToMinutes(prayerTimes['Maghrib']) },
+                    { name: 'Isyak', time: timeToMinutes(prayerTimes['Isyak']) }
+                ];
+                
+                // Find next prayer
+                let nextPrayer = null;
+                for (let i = 0; i < prayers.length; i++) {
+                    if (prayers[i].time > currentTime) {
+                        nextPrayer = prayers[i];
+                        break;
+                    }
+                }
+                
+                // If no prayer found today, next prayer is tomorrow's Subuh
+                if (!nextPrayer) {
+                    nextPrayer = { name: 'Subuh', time: prayers[0].time + (24 * 60) };
+                }
+                
+                // Calculate time difference
+                let timeDiff = nextPrayer.time - currentTime;
+                if (timeDiff < 0) {
+                    timeDiff += (24 * 60); // Add 24 hours if negative
+                }
+                
+                const hours = Math.floor(timeDiff / 60);
+                const minutes = timeDiff % 60;
+                
+                const countdownEl = document.getElementById('nextPrayerCountdown');
+                if (countdownEl) {
+                    if (hours > 0) {
+                        countdownEl.textContent = `${nextPrayer.name} dalam ${hours}j ${minutes}m`;
+                    } else {
+                        countdownEl.textContent = `${nextPrayer.name} dalam ${minutes}m`;
+                    }
+                }
+            }
+            
+            // Update immediately and then every minute
+            updateCountdown();
+            prayerCountdownInterval = setInterval(updateCountdown, 60000);
+        }
+
+        function timeToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+
+
+        // Leaderboard functions
+        function loadLeaderboard() {
+            const scores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+            const leaderboard = scores
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+            
+            const container = document.getElementById('globalLeaderboard');
+            container.innerHTML = '';
+            
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">Tiada data ranking lagi</p>';
+                return;
+            }
+            
+            leaderboard.forEach((entry, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                div.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            ${index + 1}
+                        </span>
+                        <div>
+                            <div class="font-medium">${entry.username}</div>
+                            <div class="text-sm text-gray-500">T${entry.tingkatan}</div>
+                        </div>
+                    </div>
+                    <div class="text-lg font-bold text-indigo-600">${entry.score}%</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function loadTingkatanLeaderboard(tingkatan) {
+            const scores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+            const tingkatanNumber = tingkatan.replace('t', '');
+            const leaderboard = scores
+                .filter(score => score.tingkatan === tingkatanNumber)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+            
+            const container = document.getElementById(`${tingkatan}LeaderboardContent`);
+            container.innerHTML = '';
+            
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">Tiada data ranking untuk tingkatan ini</p>';
+                return;
+            }
+            
+            leaderboard.forEach((entry, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg mb-2';
+                div.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                            ${index + 1}
+                        </span>
+                        <div class="font-medium">${entry.username}</div>
+                    </div>
+                    <div class="text-lg font-bold text-yellow-600">${entry.score}%</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Store last nota page for back navigation
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#notaT1, #notaT2, #notaT3')) {
+                const page = e.target.closest('[id^="nota"]').id;
+                localStorage.setItem('lastNotaPage', page.replace('nota', '').toLowerCase());
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98579577a3f4fd9f',t:'MTc1ODk0MDI3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
