@@ -226,7 +226,6 @@
 
                 <!-- Page: Nota T1/T2/T3 (Template) -->
                 <div id="page-nota" class="page hidden">
-                    <h2 id="nota-title" class="text-3xl font-bold mb-6">Nota Tingkatan 1</h2>
                     <!-- Tabs -->
                     <div class="border-b border-gray-200 dark:border-gray-700">
                         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
@@ -319,7 +318,7 @@
                 <div id="page-tentang" class="page hidden">
                     <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl text-center">
                         <div class="w-32 h-32 rounded-full mx-auto mb-4 overflow-hidden relative bg-gray-200">
-                             <img src="https://lh3.googleusercontent.com/d/1-VhGUFMv0XAFNQ_I0_slos7RmaWQRGSD" alt="Mohammad Saiful bin Abdul Samat" class="absolute w-full h-full object-cover" style="top: 0;">
+                             <img src="https://lh3.googleusercontent.com/d/1-VhGUFMv0XAFNQ_I0_slos7RmaWQRGSD" alt="Mohammad Saiful bin Abdul Samat" class="absolute w-full h-full object-cover" style="top: 10px;">
                         </div>
                         <h2 class="text-3xl font-bold">Mohammad Saiful bin Abdul Samat</h2>
                         <p class="text-teal-500 font-medium">Guru Pendidikan Islam SMKKS</p>
@@ -540,62 +539,129 @@
         const kuizData = {
             1: {
                 "Bidang al-Quran": [
-                    { title: "Mukmin Yang Bertakwa" }, { title: "Memohon Kebahagiaan Hakiki" }, { title: "Maha Suci Allah SWT" }, { title: "Allah SWT Penguasa Mutlak" }, { title: "Indahnya Tajwid" }, { title: "Segala Puji Bagi Allah SWT" }, { title: "Iblis & Syaitan Yang Durjana" }, { title: "Sabar Menghadapi Dugaan Kehidupan" }, { title: "Makanan Halal Lagi Baik" }
+                    { title: "Mukmin Yang Bertaqwa" },
+                    { title: "Memohon Kebahagiaan Hakiki" },
+                    { title: "Maha Suci Allah" },
+                    { title: "Allah SWT Penguasa Mutlak" },
+                    { title: "Indahnya Tajwid" },
+                    { title: "Segala Puji Bagi Allah" },
+                    { title: "Iblis Dan Syaitan Yang Durjana" },
+                    { title: "Sabar Menghadapi Dugaan Hidup" },
+                    { title: "Makanan Halal Lagi Baik" }
                 ],
                 "Bidang Hadith": [
-                    { title: "Hadis Sumber Hukum" }, { title: "Ikhlas Dalam Kehidupan" }, { title: "Jihad Dalam Islam" }
+                    { title: "Hadith Sumber Hukum" },
+                    { title: "Ikhlas Dalam Kehidupan" },
+                    { title: "Jihad Dalam Islam" }
                 ],
                 "Bidang Aqidah": [
-                    { title: "Islam Agama Fitrah" }, { title: "Akidah Islam" }, { title: "Beriman Kepada Allah SWT" }, { title: "al-Khaliq dan al-Musawwir" }
+                    { title: "Islam Agama Fitrah" },
+                    { title: "Aqidah Islam" },
+                    { title: "Beriman Kepada Allah SWT" },
+                    { title: "al-Khaliq dan al-Musawwir" }
                 ],
                 "Bidang Ibadah": [
-                    { title: "Konsep Ibadah dan Jenis Hukum" }, { title: "Bersuci Asas Kebersihan" }, { title: "Suci Daripada Najis" }, { title: "Istinjak Suatu Tuntutan" }, { title: "Wuduk & Syarat Kesempurnaan" }, { title: "Mandi Wajib Penyuci Diri" }, { title: "Solat Mercu Kejayaan" }
+                    { title: "Konsep Ibadah dan Jenis Hukum" },
+                    { title: "Bersuci Asas Kebersihan" },
+                    { title: "Bersuci Daripada Najis" },
+                    { title: "Istinjak Suatu Tuntutan" },
+                    { title: "Wudhuk Dan Syarat Kesempurnaannya" },
+                    { title: "Mandi Wajib Penyuci Diri" },
+                    { title: "Solat Mercu Kejayaan" }
                 ],
                 "Bidang Sirah": [
-                    { title: "Riwayat Hidup Nabi Muhammad SAW" }, { title: "Era Masyarakat Jahiliah" }, { title: "Keunggulan Perjuangan Khulafa ar-Rasyidin" }
+                    { title: "Riwayat Hidup Nabi Muhammad SAW" },
+                    { title: "Era Masyarakat Jahiliyyah" },
+                    { title: "Keunggulan Perjuangan Khulafa' ar-Rasyidin" }
                 ],
                 "Bidang Akhlak": [
-                    { title: "Akhlak Terpuji Hiasan Diri" }, { title: "Amanah Tunggak Kesejahteraan" }, { title: "Ilmu Cahaya Kehidupan" }, { title: "Maruah Diri Cerminan Peribadi" }
+                    { title: "Akhlak Terpuji Hiasan Diri" },
+                    { title: "Amanah Tonggak Kesejahteraan" },
+                    { title: "Ilmu Cahaya Kehidupan" },
+                    { title: "Maruah Diri Cerminan Peribadi" }
                 ]
             },
             2: {
                  "Bidang Al-Quran": [
-                    { title: "Allah SWT Pengurnia Hidayah" }, { title: "Hanya Allah SWT Yang Maha Esa" }, { title: "Luasnya Kuasa Allah SWT" }, { title: "Mudahnya Tajwid" }, { title: "Manisnya Persaudaraan" }, { title: "Mengharap Keampunan Allah SWT" }, { title: "Kesantunan Dakwah Rasulullah SAW" }, { title: "Amanah Terhadap Harta Dan Nyawa" }
+                    { title: "Allah SWT Pengurnia Hidayah" },
+                    { title: "Hanya Allah SWT Yang Maha Esa" },
+                    { title: "Luasnya Kuasa Allah SWT" },
+                    { title: "Mudahnya Tajwid" },
+                    { title: "Manisnya Persaudaraan" },
+                    { title: "Mengharap Keampunan Allah" },
+                    { title: "Kesantunan Dakwah Rasulullah SAW" },
+                    { title: "Amanah Terhadap Harta dan Nyawa" }
                 ],
                 "Bidang Hadith": [
-                    { title: "Mungkar Dicegah Hidup Berkat" }, { title: "Mencari Yang Halal" }
+                    { title: "Mungkar Dicegah Hidup Berkah" },
+                    { title: "Mencari Yang Halal" }
                 ],
                 "Bidang Aqidah": [
-                    { title: "Kekuatan Dan Kekuasaan Allah SWT" }, { title: "Ketaatan Malaikat" }, { title: "Panduan Daripada Allah SWT" }, { title: "Solat Berjemaah Pengikat Hati" }
+                    { title: "Kekuatan dan Kekuasaan Allah SWT" },
+                    { title: "Ketaatan Malaikat" },
+                    { title: "Panduan Daripada Allah SWT" },
+                    { title: "Solat Berjemaah Pengikat Hati" }
                 ],
                 "Bidang Ibadah": [
-                    { title: "Solat Jumaat Wadah Kesatuan" }, { title: "Tayamum Dengan Debu Suci" }, { title: "Rukhsah Anugerah Allah SWT" }, { title: "Puasa Benteng Diri" }, { title: "Solat Sunat Menampung Kefarduan" }
+                    { title: "Solat Jumaat Wadah Kesatuan" },
+                    { title: "Tamayammum Dengan Debu Suci" },
+                    { title: "Rukhsah Anugerah Daripada Allah SWT" },
+                    { title: "Puasa Benteng Diri" },
+                    { title: "Solat Sunat Menampung Kefardhuan" }
                 ],
                 "Bidang Sirah": [
-                    { title: "Terbitnya Fajar Dakwah" }, { title: "Hijrah Detik Bersejarah" }, { title: "Kepimpinan Rasulullah SAW Di Madinah" }, { title: "Wanita Suri Teladan Umat" }
+                    { title: "Terbitnya Fajar Dakwah" },
+                    { title: "Hijrah Detik Bersejarah" },
+                    { title: "Kepimpinan Rasulullah SAW di Madinah" },
+                    { title: "Wanita Suri Teladan Umat" }
                 ],
                 "Bidang Akhlak": [
-                    { title: "Malu Perisai Iman" }, { title: "Menyemai Kasih Menuai Sayang" }, { title: "Muliakan Ibu Bapa Bahagiakan Keluarga" }, { title: "Santuni Jiranmu" }, { title: "Masjid Destinasiku" }
+                    { title: "Malu Perisai Iman" },
+                    { title: "Menyemai Kasih Menuai Sayang" },
+                    { title: "Muliakan Ibu Bapa Bahagiakan Keluarga" },
+                    { title: "Santuni Jiranmu" },
+                    { title: "Masjid Destinasiku" }
                 ]
             },
             3: {
                 "Bidang al-Quran": [
-                    { title: "Allah SWT Pengampun Segala Dosa" }, { title: "Al Quran Petunjuk Kebenaran" }, { title: "Hukum Tajwid" }, { title: "Pancaindera Yang Dimanfaatkan" }, { title: "Zikir Penenang Hati" }, { title: "Generasi Unggul" }, { title: "Kewajipan Memelihara Kehormatan Diri" }, { title: "Penciptaan Manusia Bukti Kekuasaan Allah SWT" }
+                    { title: "Allah SWT Pengampun Segala Dosa" },
+                    { title: "al-Quran Petunjuk Kebenaran" },
+                    { title: "Hukum Tajwid" },
+                    { title: "Pancaindera Yang Dimanfaatkan" },
+                    { title: "Zikir Penenang Hati" },
+                    { title: "Generasi Unggul" },
+                    { title: "Kewajipan Memelihara Kehormatan Diri" },
+                    { title: "Penciptaan Manusia Bukti Kekuasaan Allah SWT" }
                 ],
                 "Bidang Hadith": [
-                    { title: "Sedekah Kunci Kebaikan" }, { title: "Hindari Sifat Negatif" }
+                    { title: "Sedekah Kunci Kebaikan" },
+                    { title: "Hindari Sifat Negatif" }
                 ],
                 "Bidang Aqidah": [
-                    { title: "Allah SWT Maha Kaya Pengurnia Rezeki" }, { title: "Beriman Kepada Rasul" }, { title: "Beriman Kepada Hari Akhirat" }, { title: "Beriman Kepada Qadha Dan Qadar" }
+                    { title: "Allah SWT Maha Kaya Pengurnia Rezeki" },
+                    { title: "Beriman Kepada Rasul" },
+                    { title: "Beriman Kepada Hari Akhirat" },
+                    { title: "Beriman Kepada Qada' dan Qadar" }
                 ],
                 "Bidang Ibadah": [
-                    { title: "Konsep Fardhu Ain Dan Fardhu Kifayah" }, { title: "Pengurusan Jenazah" }, { title: "Zakat Penyuci Harta" }, { title: "Aidilfitri Dan Aidiladha" }, { title: "Qiamulail Pemangkin Kekuatan Jiwa" }, { title: "Solat Sunat Tahiyatul Masjid Dan Solat Sunat Hajat" }
+                    { title: "Konsep Fardhu Ain Dan Fardhu Kifayah" },
+                    { title: "Pengurusan Jenazah" },
+                    { title: "Zakat Penyuci Harta" },
+                    { title: "Aidilfitri Dan Aidiladha" },
+                    { title: "Qiamullail Pemangkin Kekuatan Jiwa" },
+                    { title: "Solat Sunat Tahiyyatul Masjid Dan Solat Sunat Hajat" }
                 ],
                 "Bidang Sirah": [
-                    { title: "Perjanjian Hudaibiyah Dan Pembukaan Kota Mekah" }, { title: "Tokoh Sahabat" }
+                    { title: "Perjanjian Hudaibiyyah Dan Pembukaan Kota Mekah" },
+                    { title: "Tokoh Sahabat" }
                 ],
                 "Bidang Akhlak": [
-                    { title: "Pemaaf Melunakkan Hati" }, { title: "Qanaah Hiasan Peribadi" }, { title: "Syukur Penyubur Iman" }, { title: "Adab Berkomunikasi" }, { title: "Adab Bermusafir" }
+                    { title: "Pemaaf Melunakkan Hati" },
+                    { title: "Qana'ah Hiasan Peribadi" },
+                    { title: "Syukur Penyubur Iman" },
+                    { title: "Adab Berkomunikasi" },
+                    { title: "Adab Bermusafir" }
                 ]
             }
         };
@@ -803,7 +869,6 @@
 
         // --- Nota Page Logic ---
         function displayNotaContent(tingkatan) {
-            document.getElementById('nota-title').textContent = `Nota Tingkatan ${tingkatan}`;
             const notaContainer = document.getElementById('nota-list');
             notaContainer.innerHTML = '';
             const data = notaData[tingkatan] || {};
@@ -1178,4 +1243,5 @@
     </script>
 </body>
 </html>
+
 
